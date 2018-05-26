@@ -4,8 +4,7 @@ use Superior\Wallet;
 use PhpParser\Node\Stmt\Echo_;
 use function GuzzleHttp\json_decode;
 use function Graze\GuzzleHttp\JsonRpc\json_encode;
-use Illuminate\Routing\Route;
-
+use Illuminate\Support\Facades\Route;
 
 
 Route::get('/', function () {
@@ -24,8 +23,6 @@ Route::get('/getBalance', function () {
     echo "The Balance of your wallet is ".$array['balance'];
     echo "Your Unlocked Balance is" .$array['unlocked_balance'];
     print_r ($array);
-
-
 });
 
 Route::get('/getAddres', function () {
@@ -74,9 +71,5 @@ Route::get('/getBulkPayments/{payment_id}{height}', function() {
     $response =  json_decode($wallet->getBulkPayments($payment_id, $height));
     $array = json_decode(json_encode($response), true);
     echo "The paymants are ".$array['']; 
-    
-    
-
-    
-    
 });
+

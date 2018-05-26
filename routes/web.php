@@ -1,6 +1,5 @@
 <?php
 require '../vendor/autoload.php';
-use Superior\Wallet;
 use PhpParser\Node\Stmt\Echo_;
 use function GuzzleHttp\json_decode;
 use function Graze\GuzzleHttp\JsonRpc\json_encode;
@@ -17,7 +16,7 @@ Route::get('/getBalance', function () {
     $hostname = '127.0.0.1';
     $port = '16037';
     $wallet = new Superior\Wallet($hostname, $port);
-    $balance = $wallet->getBalance();
+    $wallet->getBalance();
     $response =  json_decode($wallet->getBalance());
     $array = json_decode(json_encode($response), true);
     echo "The Balance of your wallet is ".$array['balance'];
@@ -25,13 +24,12 @@ Route::get('/getBalance', function () {
     print_r ($array);
 });
 
-Route::get('/getAddres', function () {
+Route::get('/getAddress', function () {
     $wallet = new Superior\Wallet();
     $hostname = '127.0.0.1';
     $port = '16037';
     $wallet = new Superior\Wallet($hostname, $port);
-    $response =  json_decode($wallet->getBalance());
-    $array = json_decode(json_encode($response), true);
+    $response =  json_decode($wallet->getAddress());
     echo "The Hash of your Address is  ".$array['address'];
     print_r ($array);
 

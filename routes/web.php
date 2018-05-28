@@ -65,9 +65,10 @@ Route::post('/transferSplit', function() {
         'address' => $_POST['address']
         ]
        ];
-    $response =  json_decode($wallet->transfer_split($options));
+    $response =  json_decode($wallet->transferSplit($options));
     $array = json_decode(json_encode($response), true);
-    echo "The List of transaction ".$array['tx_hash_list'];    
+    print_r ($array);
+   // echo "The List of transaction ".$array['tx_hash_list'];    
 });
 
 Route::get('/getBulkPayments/{payment_id}{height}', function() {

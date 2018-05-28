@@ -16,12 +16,12 @@ Route::get('/getBalance', function () {
     $hostname = '127.0.0.1';
     $port = '16037';
     $wallet = new Superior\Wallet($hostname, $port);
-    $wallet->getBalance();
     $response =  json_decode($wallet->getBalance());
     $array = json_decode(json_encode($response), true);
-    echo "The Balance of your wallet is ".$array['balance'];
-    echo "Your Unlocked Balance is" .$array['unlocked_balance'];
-    print_r ($array);
+
+    echo "The Balance of your wallet is ".$array['balance'] ."\n";
+    echo("\n\t");
+    echo " Your Unlocked Balance is " .$array['unlocked_balance'];
 });
 
 Route::get('/getAddress', function () {
@@ -30,30 +30,42 @@ Route::get('/getAddress', function () {
     $port = '16037';
     $wallet = new Superior\Wallet($hostname, $port);
     $response =  json_decode($wallet->getAddress());
-    echo "The Hash of your Address is  ".$array['address'];
-    print_r ($array);
-
-});
-
-Route::get('/transfer/{options}', function () {
-    $wallet = new Superior\Wallet();
-    $hostname = '127.0.0.1';
-    $port = '16037';
-    $wallet = new Superior\Wallet($hostname, $port);
-    $options = Route::current()->options;
-    $response =  json_decode($tx_hash = $wallet->transfer($options));
     $array = json_decode(json_encode($response), true);
-    echo "The hash of transaction is ".$array['tx_hash'];
-    print_r ($array);
+    echo "The Hash of your Address is  ".$array['address'];
+
+
 });
 
-Route::get('/transferSplit/{options}', function() {
+Route::post('/transfer', function () {
     $wallet = new Superior\Wallet();
     $hostname = '127.0.0.1';
     $port = '16037';
     $wallet = new Superior\Wallet($hostname, $port);
-    $options = Route::current()->options;
-    $response =  json_decode($tx_hash = $wallet->transfer($options));
+    $options = [
+        'destinations' => (object)[
+        'amount' => $_POST['amount'],
+        'address' => $_POST['address']
+        ]
+       ];
+    
+    $response =  json_decode( $wallet->transfer($options));
+    $array = json_decode(json_encode($response), true);
+
+    print_r ($array);
+});
+//transferSplit
+Route::post('/transferSplit', function() {
+    $wallet = new Superior\Wallet();
+    $hostname = '127.0.0.1';
+    $port = '16037';
+    $wallet = new Superior\Wallet($hostname, $port);
+    $options = [
+        'destinations' => (object)[
+        'amount' => $_POST['amount'],
+        'address' => $_POST['address']
+        ]
+       ];
+    $response =  json_decode($wallet->transfer_split($options));
     $array = json_decode(json_encode($response), true);
     echo "The List of transaction ".$array['tx_hash_list'];    
 });
